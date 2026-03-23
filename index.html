@@ -47,18 +47,28 @@
                 <i class="fas fa-car"></i>
                 <h3>Automotive & Motography</h3>
                 <p>Specialized vehicle shoots, cinematic photos, and high-end reels.</p>
+                <button class="view-work-btn" onclick="openGallery('automotive')">View Portfolio</button>
             </div>
             <div class="service-card">
                 <i class="fas fa-camera-retro"></i>
                 <h3>Portraits & Portfolio</h3>
                 <p>Individual outdoor sessions with advanced retouching.</p>
+                <button class="view-work-btn" onclick="openGallery('portraits')">View Portfolio</button>
             </div>
             <div class="service-card">
                 <i class="fas fa-video"></i>
                 <h3>Event & Hybrid Coverage</h3>
                 <p>Full-day photography and videography combos for your special moments.</p>
+                <button class="view-work-btn" onclick="openGallery('events')">View Portfolio</button>
             </div>
         </div>
+    </section>
+
+    <div id="galleryModal" class="modal">
+        <span class="close-modal" onclick="closeGallery()">&times;</span>
+        <div class="modal-content" id="galleryContainer">
+            </div>
+    </div>
     </section>
 
     <section id="pricing" class="pricing section-padding">
