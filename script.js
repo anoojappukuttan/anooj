@@ -31,17 +31,17 @@ document.addEventListener("DOMContentLoaded", () => {
 // Add your actual image file paths here
 const portfolioImages = {
     'automotive': [
-        'images/auto1.jpg', // Replace with your image paths
-        'images/auto2.jpg',
-        'images/auto3.jpg'
+        'auto1.jpg', // Replace with your image paths
+        'auto2.jpg',
+        'auto3.jpg'
     ],
     'portraits': [
-        'images/portrait1.jpg',
+        'portrait1.jpg',
         'images/portrait2.jpg'
     ],
     'events': [
-        'images/event1.jpg',
-        'images/event2.jpg'
+        'event1.jpg',
+        'event2.jpg'
     ]
 };
 
