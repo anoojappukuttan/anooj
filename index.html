@@ -420,14 +420,16 @@
         .image-wrapper {
             position: relative;
             width: 100%;
+            aspect-ratio: 4 / 5; /* This locks every image into a uniform, professional portrait shape */
             border-radius: 8px;
-            overflow: hidden; /* This keeps the zoomed image inside the borders */
+            overflow: hidden; 
             cursor: pointer;
         }
 
         .image-wrapper img {
             width: 100%;
-            height: auto;
+            height: 100%; /* Forces the image to fill the new aspect ratio */
+            object-fit: cover; /* Crops the image perfectly so it never stretches or squishes */
             display: block;
             border-radius: 8px;
             
