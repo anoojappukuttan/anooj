@@ -416,20 +416,13 @@
             margin: auto;
         }
 
-        /* --- Anti-Save Image Protection & Hover Animations --- */
+        /* --- Bulletproof Anti-Save Image Protection & Hover Animations --- */
         .image-wrapper {
             position: relative;
             width: 100%;
             border-radius: 8px;
-            overflow: hidden;
-        }
-
-        /* Invisible overlay that blocks right-clicks on the actual image */
-        .image-wrapper::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            z-index: 10; 
+            overflow: hidden; /* This keeps the zoomed image inside the borders */
+            cursor: pointer;
         }
 
         .image-wrapper img {
@@ -437,19 +430,33 @@
             height: auto;
             display: block;
             border-radius: 8px;
+            
+            /* The smooth zoom transition */
+            transition: transform 0.5s ease-in-out;
+            
+            /* Stops users from selecting or touching the image directly */
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
             pointer-events: none; 
-            
-            /* Smooth transition settings */
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* The image scales up slightly when hovering over the wrapper */
+        /* The Zoom Effect when hovering over the wrapper */
         .image-wrapper:hover img {
-            transform: scale(1.06);
+            transform: scale(1.08); /* Increased to 1.08 to make it highly visible */
+        }
+
+        /* The Invisible Shield that blocks right-clicks on the actual image */
+        .image-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            z-index: 10;
+            background: rgba(0,0,0,0); /* Forces browsers to see this as a solid, clickable layer */
         }
 
         /* Responsive Design */
@@ -570,7 +577,6 @@
             <div class="pricing-grid">
                 
                 <div class="pricing-card">
-                     
                     <div style="background: #333; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; display: inline-block; margin-bottom: 15px; letter-spacing: 1px;">BUDGET / SMALL ACADEMIES</div>
                    <h4>Basic Package</h4>
                     <p class="duration">15–45 sec duration</p>
@@ -740,12 +746,17 @@
                     const wrapper = document.createElement('div');
                     wrapper.className = 'image-wrapper';
                     
+                    // Bulletproof right-click block specifically on this wrapper
+                    wrapper.addEventListener('contextmenu', function(e) {
+                        e.preventDefault();
+                        return false;
+                    });
+                    
                     const img = document.createElement('img');
                     img.src = imageSrc;
                     img.alt = 'Frames By Anooj Portfolio Work';
                     
-                    // Extra HTML protection against saving/dragging
-                    img.setAttribute('oncontextmenu', 'return false;');
+                    // HTML protection against dragging
                     img.setAttribute('draggable', 'false');
 
                     wrapper.appendChild(img);
@@ -771,14 +782,14 @@
             }
         }
 
-        // --- Anti-Save Protection Scripts --- //
+        // --- Global Anti-Save Protection Scripts --- //
         
         // Disable right-click across the entire website
         document.addEventListener('contextmenu', function(event) {
             event.preventDefault();
         });
 
-        // Disable image dragging (prevents users from dragging the image to their desktop)
+        // Disable image dragging globally
         document.addEventListener('dragstart', function(event) {
             if (event.target.tagName === 'IMG') {
                 event.preventDefault();
