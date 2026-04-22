@@ -537,6 +537,41 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.8);
             pointer-events: auto; /* Allows the right-click to register on the image */
         }
+        /* --- Contact Link Styles --- */
+        .info-item a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .info-item a:hover {
+            color: #e6b800; /* Adds a nice gold hover effect matching your buttons */
+        }
+
+        /* --- Hero Section Contact Info --- */
+        .hero-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .hero-contact a {
+            color: #a8a8a8;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: fit-content;
+        }
+
+        .hero-contact a i {
+            color: #e6b800;
+        }
+
+        .hero-contact a:hover {
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
@@ -557,7 +592,13 @@
     <section id="home" class="hero">
         <div class="hero-text fade-in">
             <h1>Capturing Life <br>& Motion.</h1>
-            <p>Creator | Motographer | Visual Artist</p>
+            <p style="margin-bottom: 20px;">Creator | Motographer | Visual Artist</p>
+            
+            <div class="hero-contact">
+                <a href="tel:+917356567754"><i class="fas fa-phone-alt"></i> +91 7356567754</a>
+                <a href="mailto:anoojappukuttan@gmail.com"><i class="fas fa-envelope"></i> anoojappukuttan@gmail.com</a>
+            </div>
+
             <a href="#contact" class="btn">Book a Session</a>
         </div>
         <div class="hero-img fade-in">
@@ -567,7 +608,7 @@
 
     <section id="portfolio" class="portfolio section-padding">
         <div class="section-title fade-in">
-            <h2>My Services</h2>
+            <h2>Take a Look</h2>
             <div class="underline"></div>
         </div>
         <div class="services-grid fade-in">
@@ -707,14 +748,14 @@
             <div class="underline"></div>
         </div>
         <div class="contact-container fade-in">
-            <div class="contact-info">
+           <div class="contact-info">
                 <div class="info-item">
                     <i class="fas fa-phone-alt"></i>
-                    <p>+91 7356567754</p>
+                    <a href="tel:+917356567754">+91 7356567754</a>
                 </div>
                 <div class="info-item">
                     <i class="fas fa-envelope"></i>
-                    <p>anoojappukuttan@gmail.com</p>
+                    <a href="mailto:anoojappukuttan@gmail.com">anoojappukuttan@gmail.com</a>
                 </div>
             </div>
             
