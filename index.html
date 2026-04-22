@@ -499,6 +499,44 @@
                 transform: scale(1);
             }
         }
+
+        /* --- Full View Lightbox Styles --- */
+        .full-view-modal {
+            display: none;
+            position: fixed;
+            z-index: 3000; /* Higher than the gallery modal */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.98); 
+            justify-content: center;
+            align-items: center;
+        }
+
+        .close-full-view {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 45px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 3001;
+            transition: color 0.3s;
+        }
+
+        .close-full-view:hover {
+            color: #e6b800;
+        }
+
+        .full-view-content {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            pointer-events: auto; /* Allows the right-click to register on the image */
+        }
     </style>
 </head>
 <body>
@@ -565,6 +603,11 @@
         <span class="close-modal" onclick="closeGallery()">&times;</span>
         <div class="modal-content" id="galleryContainer">
         </div>
+    </div>
+
+    <div id="fullViewModal" class="full-view-modal">
+        <span class="close-full-view" onclick="closeFullView()">&times;</span>
+        <img class="full-view-content allow-right-click" id="fullViewImage">
     </div>
 
     <section id="pricing" class="pricing section-padding">
@@ -688,6 +731,7 @@
     </footer>
 
     <script>
+        
         document.addEventListener("DOMContentLoaded", () => {
             // Fade-in animation on scroll
             const faders = document.querySelectorAll('.fade-in');
@@ -762,18 +806,16 @@
             ]
         };
 
-        function openGallery(category) {
+       function openGallery(category) {
             const modal = document.getElementById('galleryModal');
             const container = document.getElementById('galleryContainer');
-            container.innerHTML = ''; // Clear previous images
+            container.innerHTML = ''; 
 
-            // Generate images based on the clicked category
             if(portfolioImages[category]) {
                 portfolioImages[category].forEach(imageSrc => {
                     const wrapper = document.createElement('div');
                     wrapper.className = 'image-wrapper';
                     
-                    // Bulletproof right-click block specifically on this wrapper
                     wrapper.addEventListener('contextmenu', function(e) {
                         e.preventDefault();
                         return false;
@@ -782,20 +824,22 @@
                     const img = document.createElement('img');
                     img.src = imageSrc;
                     img.alt = 'Frames By Anooj Portfolio Work';
-                    
-                    // HTML protection against dragging
                     img.setAttribute('draggable', 'false');
 
                     wrapper.appendChild(img);
                     container.appendChild(wrapper);
+
+                    // NEW: Open full view when clicking the wrapper
+                    wrapper.addEventListener('click', function() {
+                        openFullView(imageSrc);
+                    });
                 });
             }
 
-            // Show the modal and stop the background from scrolling
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden'; 
         }
-
+        
         function closeGallery() {
             document.getElementById('galleryModal').style.display = 'none';
             document.body.style.overflow = 'auto'; // Restore background scrolling
@@ -808,6 +852,24 @@
                 closeGallery();
             }
         }
+        // NEW: Full View Functions
+        function openFullView(src) {
+            const fullViewModal = document.getElementById('fullViewModal');
+            const fullViewImg = document.getElementById('fullViewImage');
+            fullViewImg.src = src;
+            fullViewModal.style.display = 'flex';
+        }
+
+        function closeFullView() {
+            document.getElementById('fullViewModal').style.display = 'none';
+        }
+
+        // Allow closing full view by clicking the dark background
+        document.getElementById('fullViewModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeFullView();
+            }
+        });
 
         // --- Global Anti-Save Protection Scripts --- //
         
