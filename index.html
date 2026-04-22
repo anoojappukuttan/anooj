@@ -939,9 +939,11 @@
 
         // --- Global Anti-Save Protection Scripts --- //
         
-        // Disable right-click across the entire website
+        // Disable right-click globally, EXCEPT for the full-view image
         document.addEventListener('contextmenu', function(event) {
-            event.preventDefault();
+            if (!event.target.classList.contains('allow-right-click')) {
+                event.preventDefault();
+            }
         });
 
         // Disable image dragging globally
