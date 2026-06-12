@@ -418,6 +418,18 @@
         .image-wrapper video {
             pointer-events: auto; 
         }
+        .video-wrapper::after {
+            display: none !important; /* Removes the invisible shield so controls work */
+        }
+
+        .video-wrapper {
+            cursor: default; /* Changes cursor back to normal since videos don't click to full-view */
+        }
+
+/* Optional: Tone down the hover zoom for videos so the controls don't jump around */
+        .video-wrapper:hover video {
+            transform: scale(1.02); 
+        }
         /* --- Bulletproof Anti-Save Image Protection & Hover Animations --- */
         .image-wrapper {
             position: relative;
@@ -906,16 +918,24 @@
             const wrapper = document.createElement('div');
             wrapper.className = 'image-wrapper';
             
-            // Check if it's a video based on extension
-            const isVideo = itemSrc.endsWith('.mp4');
+            // FIX 1: Make the check case-insensitive by converting to lowercase first
+            const isVideo = itemSrc.toLowerCase().endsWith('.mp4');
 
             if (isVideo) {
+                // FIX 2: Add a special class so we can remove the anti-click shield for videos
+                wrapper.classList.add('video-wrapper');
+
                 const video = document.createElement('video');
                 video.src = itemSrc;
                 video.controls = true; // Adds play/pause buttons
                 video.style.width = '100%';
                 video.style.height = '100%';
                 video.style.objectFit = 'cover';
+                
+                // Recommended attributes for better mobile loading
+                video.setAttribute('playsinline', '');
+                video.setAttribute('preload', 'metadata');
+                
                 wrapper.appendChild(video);
             } else {
                 // Keep the image logic
