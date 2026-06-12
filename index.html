@@ -909,53 +909,59 @@
         };
 
        function openGallery(category) {
-    const modal = document.getElementById('galleryModal');
-    const container = document.getElementById('galleryContainer');
-    container.innerHTML = ''; 
+            const modal = document.getElementById('galleryModal');
+            const container = document.getElementById('galleryContainer');
+            container.innerHTML = ''; 
 
-    if(portfolioImages[category]) {
-        portfolioImages[category].forEach(itemSrc => {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'image-wrapper';
-            
-            // FIX 1: Make the check case-insensitive by converting to lowercase first
-            const isVideo = itemSrc.toLowerCase().endsWith('.mp4');
+            if(portfolioImages[category]) {
+                portfolioImages[category].forEach(itemSrc => {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'image-wrapper';
+                    
+                    // Make the check case-insensitive by converting to lowercase first
+                    const isVideo = itemSrc.toLowerCase().endsWith('.mp4');
 
-            if (isVideo) {
-                // FIX 2: Add a special class so we can remove the anti-click shield for videos
-                wrapper.classList.add('video-wrapper');
+                    if (isVideo) {
+                        // Add a special class so we can remove the anti-click shield for videos
+                        wrapper.classList.add('video-wrapper');
 
-                const video = document.createElement('video');
-                video.src = itemSrc;
-                video.controls = true; // Adds play/pause buttons
-                video.style.width = '100%';
-                video.style.height = '100%';
-                video.style.objectFit = 'cover';
-                
-                // Recommended attributes for better mobile loading
-                video.setAttribute('playsinline', '');
-                video.setAttribute('preload', 'metadata');
-                
-                wrapper.appendChild(video);
-            } else {
-                // Keep the image logic
-                const img = document.createElement('img');
-                img.src = itemSrc;
-                img.setAttribute('draggable', 'false');
-                wrapper.appendChild(img);
-                
-                // Only allow click-to-zoom for images
-                wrapper.addEventListener('click', function() {
-                    openFullView(itemSrc);
+                        const video = document.createElement('video');
+                        video.src = itemSrc;
+                        video.controls = true; // Adds play/pause buttons
+                        video.style.width = '100%';
+                        video.style.height = '100%';
+                        video.style.objectFit = 'cover';
+                        
+                        // Recommended attributes for better mobile loading
+                        video.setAttribute('playsinline', '');
+                        video.setAttribute('preload', 'metadata');
+                        
+                        // NEW: Disable the download button in the controls menu
+                        video.setAttribute('controlsList', 'nodownload');
+                        
+                        // NEW: Extra protection to stop right-click "Save Video As"
+                        video.addEventListener('contextmenu', (e) => e.preventDefault());
+                        
+                        wrapper.appendChild(video);
+                    } else {
+                        // Keep the image logic
+                        const img = document.createElement('img');
+                        img.src = itemSrc;
+                        img.setAttribute('draggable', 'false');
+                        wrapper.appendChild(img);
+                        
+                        // Only allow click-to-zoom for images
+                        wrapper.addEventListener('click', function() {
+                            openFullView(itemSrc);
+                        });
+                    }
+                    container.appendChild(wrapper);
                 });
             }
-            container.appendChild(wrapper);
-        });
-    }
 
-    modal.style.display = 'block';
-    document.body.style.overflow = 'hidden'; 
-}
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; 
+        }
         
         function closeGallery() {
             document.getElementById('galleryModal').style.display = 'none';
