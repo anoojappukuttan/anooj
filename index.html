@@ -613,6 +613,12 @@
         </div>
         <div class="services-grid fade-in">
             <div class="service-card">
+                <i class="fas fa-play-circle"></i>
+                <h3>Cinematic Reels</h3>
+                <p>High-end cinematic video edits for social media and brands.</p>
+                <button class="view-work-btn" onclick="openGallery('videos')">View Reels</button>
+            </div>
+            <div class="service-card">
                 <i class="fas fa-car"></i>
                 <h3>Automotive & Motography</h3>
                 <p>Specialized vehicle shoots, cinematic photos, and high-end reels.</p>
@@ -806,6 +812,23 @@
 
         // Ensure these filenames and extensions match your actual files exactly
         const portfolioImages = {
+            'videos': [
+                'video1.mp4',
+                'video2.mp4',
+                'video3.mp4',
+                'video4.mp4',
+                'video5.mp4',
+                'video6.mp4',
+                'video7.mp4',
+                'video8.mp4',
+                'video9.mp4',
+                'video10.mp4',
+                'video11.mp4',
+                'video12.mp4',
+                'video13.mp4',
+                'video14.mp4',
+                'video15.mp4',
+                    ],
             'automotive': [
                 'auto1.jpg',
                 'auto2.jpg',
@@ -873,38 +896,45 @@
         };
 
        function openGallery(category) {
-            const modal = document.getElementById('galleryModal');
-            const container = document.getElementById('galleryContainer');
-            container.innerHTML = ''; 
+    const modal = document.getElementById('galleryModal');
+    const container = document.getElementById('galleryContainer');
+    container.innerHTML = ''; 
 
-            if(portfolioImages[category]) {
-                portfolioImages[category].forEach(imageSrc => {
-                    const wrapper = document.createElement('div');
-                    wrapper.className = 'image-wrapper';
-                    
-                    wrapper.addEventListener('contextmenu', function(e) {
-                        e.preventDefault();
-                        return false;
-                    });
-                    
-                    const img = document.createElement('img');
-                    img.src = imageSrc;
-                    img.alt = 'Frames By Anooj Portfolio Work';
-                    img.setAttribute('draggable', 'false');
+    if(portfolioImages[category]) {
+        portfolioImages[category].forEach(itemSrc => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'image-wrapper';
+            
+            // Check if it's a video based on extension
+            const isVideo = itemSrc.endsWith('.mp4');
 
-                    wrapper.appendChild(img);
-                    container.appendChild(wrapper);
-
-                    // NEW: Open full view when clicking the wrapper
-                    wrapper.addEventListener('click', function() {
-                        openFullView(imageSrc);
-                    });
+            if (isVideo) {
+                const video = document.createElement('video');
+                video.src = itemSrc;
+                video.controls = true; // Adds play/pause buttons
+                video.style.width = '100%';
+                video.style.height = '100%';
+                video.style.objectFit = 'cover';
+                wrapper.appendChild(video);
+            } else {
+                // Keep the image logic
+                const img = document.createElement('img');
+                img.src = itemSrc;
+                img.setAttribute('draggable', 'false');
+                wrapper.appendChild(img);
+                
+                // Only allow click-to-zoom for images
+                wrapper.addEventListener('click', function() {
+                    openFullView(itemSrc);
                 });
             }
+            container.appendChild(wrapper);
+        });
+    }
 
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden'; 
-        }
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden'; 
+}
         
         function closeGallery() {
             document.getElementById('galleryModal').style.display = 'none';
